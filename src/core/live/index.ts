@@ -1,6 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { stringify } from 'querystring';
-import { getBaseHeaders } from '../../utils';
+import { getAxios, getBaseHeaders } from '../../utils';
 import XRError from '../../classes/XRError';
 import commonConfig from '../../config';
 
@@ -89,7 +89,7 @@ export const exchangeCodeForAccessToken = async (
 		payload.client_secret = clientSecret;
 	}
 
-	const response = await axios({
+	const response = await getAxios()({
 		url: config.urls.token,
 		method: 'POST',
 		headers: getBaseHeaders({
@@ -143,7 +143,7 @@ export const refreshAccessToken = async (
 		payload.client_secret = clientSecret;
 	}
 
-	const response = await axios({
+	const response = await getAxios()({
 		url: config.urls.token,
 		method: 'POST',
 		headers: getBaseHeaders({
@@ -175,7 +175,7 @@ export const refreshAccessToken = async (
 export const preAuth = async (
 	options?: LivePreAuthOptions
 ): Promise<LivePreAuthResponse> => {
-	const response = await axios({
+	const response = await getAxios()({
 		url: getAuthorizeUrl(
 			options?.clientId,
 			options?.scope,
@@ -229,7 +229,7 @@ export const authenticate = async (
 	credentials: LiveCredentials
 ): Promise<LiveAuthResponse> => {
 	const preAuthResponse = await preAuth();
-	const response = await axios({
+	const response = await getAxios()({
 		url: preAuthResponse.matches.urlPost,
 		method: 'POST',
 		headers: getBaseHeaders({

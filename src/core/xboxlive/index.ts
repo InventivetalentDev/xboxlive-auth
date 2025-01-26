@@ -1,6 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import config, { defaultXSTSRelyingParty } from './config';
-import { getBaseHeaders } from '../../utils';
+import { getAxios, getBaseHeaders } from '../../utils';
 import XRError from '../../classes/XRError';
 import commonConfig from '../../config';
 
@@ -47,7 +47,7 @@ export const exchangeRpsTicketForUserToken = async (
 		rpsTicket = `${preamble}=${rpsTicket}`;
 	}
 
-	const response = await axios({
+	const response = await getAxios()({
 		url: config.urls.userAuthenticate,
 		method: 'POST',
 		headers: getBaseHeaders({
@@ -102,7 +102,7 @@ export const exchangeTokensForXSTSToken = async (
 	options: XBLExchangeTokensOptions = {},
 	additionalHeaders: Record<string, string> = {}
 ): Promise<XBLExchangeTokensResponse> => {
-	const response = await axios({
+	const response = await getAxios()({
 		url: config.urls.XSTSAuthorize,
 		method: 'POST',
 		headers: getBaseHeaders({
@@ -180,7 +180,7 @@ export const EXPERIMENTAL_createDummyWin32DeviceToken = async (): Promise<XBLDum
 		y: 'PuRfclnYeqBroHVhX_QLPmOMGB6zUjK4bIScxpKIVh4',
 	};
 
-	const response = await axios({
+	const response = await getAxios()({
 		url: config.urls.deviceAuthenticate,
 		method: 'POST',
 		headers: getBaseHeaders({

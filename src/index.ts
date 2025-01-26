@@ -12,6 +12,8 @@ import {
 	exchangeTokensForXSTSToken,
 	exchangeTokenForXSTSToken
 } from './core/xboxlive';
+import { AxiosInstance } from 'axios';
+import config from './config';
 
 //#region typings
 
@@ -70,9 +72,9 @@ export type XBLExchangeTokensResponse = {
 	DisplayClaims: {
 		xui: Array<
 			Record<string, string> & {
-				xid?: string;
-				uhs: string;
-			}
+			xid?: string;
+			uhs: string;
+		}
 		>;
 	};
 };
@@ -249,6 +251,10 @@ export const authenticateWithUserRefreshToken = (() => {
  * @returns {Promise<CredentialsAuthenticateResponse>} Authenticate response
  */
 export const authenticate = authenticateWithUserCredentials;
+
+export const setAxiosInstance = (instance: AxiosInstance | undefined) => {
+	config.request.axiosInstance = instance;
+};
 
 //#endregion
 //#region public namespaces
